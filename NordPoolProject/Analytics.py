@@ -1,54 +1,54 @@
 from matplotlib import pyplot as plt
 import pandas as pd
 import Scraper
+from NordPoolProject.Scraper import calculate_daily_average
+
 
 def get_data(date:str ):
     data = Scraper.scraper(date)
     return data
 
-def visualize_24_hour_change(data: pd.DataFrame):
-    price = data["Price (€/MWh)"]
+def visualize_24_hour_chart(data: pd.DataFrame):
+    price = data["Hind (€/MWh)"]
 
     plt.figure(figsize=(10, 6))
     plt.plot(range(len(price)), price, marker='o', linestyle='-', color='blue')
 
-    plt.xlabel("Hour of Day")
-    plt.ylabel("Price (€/MWh)")
-    plt.title(f"Nord Pool Day Prices on {data['Date'][0]}")
+    plt.xlabel("Tund")
+    plt.ylabel("Hind (€/MWh)")
+    plt.title(f"Nord Pool päeva hind {data['Kuupäev'][0]}")
 
     tick_positions = range(0, len(price), 2)
-    start_hours = data["Hour"].str.split(" - ").str[0]
+    start_hours = data["Tund"].str.split(" - ").str[0]
     tick_labels = [start_hours[i] for i in tick_positions]
     plt.xticks(tick_positions, tick_labels, rotation=45)
-
     plt.grid(True)
     plt.fill_between(range(len(price)), price, color='blue', alpha=0.4)
     plt.tight_layout()
-    plt.savefig('foo.png', bbox_inches='tight')
+    plt.savefig(f'graafid/24_hour_chart{data["Kuupäev"][0]}.png', bbox_inches='tight')
     plt.show()
-
 def visualize_24_hour_change_between_hours(data: pd.DataFrame):
-    price = data["Price (€/MWh)"].values
-    data.sort_values("Hour", inplace=True)
-    hour_str = data["Hour"].str.split(" - ").str[0]
+    price = data["Hind (€/MWh)"].values
+    data.sort_values("Tund", inplace=True)
+    hour_str = data["Tund"].str.split(" - ").str[0]
     hour = hour_str.str.split(":").str[0].astype(int)
 
     result = [0]
     for i in range(1, len(price)):
         result.append(price[i] - price[i - 1])
-    print(hour)
-    print(result)
+
     plt.figure(figsize=(10, 6))
     plt.bar(hour, result, color='orange')
-    plt.xlabel("Hour of Day")
-    plt.ylabel("Price Change (€/MWh)")
-    plt.title(f"Hourly Price Change on {data['Date'][0]}")
+    plt.xlabel("Tund")
+    plt.ylabel("Hinna muutus (€/MWh)")
+    plt.title(f"Iga tunnine hinna muutus {data['Kuupäev'][0]}")
     plt.xticks(range(0, 24))
     plt.grid(axis='y')
     plt.tight_layout()
-    plt.savefig('foo.png', bbox_inches='tight')
+    plt.savefig(f'graafid/change_between_hours{data["Kuupäev"][0]}.png', bbox_inches='tight')
     plt.show()
 
-data = get_data("2025-05-25")
-visualize_24_hour_change(data)
-visualize_24_hour_change_between_hours(data)
+if __name__ == "__main__":
+    data = get_data("2025-05-24")
+    visualize_24_hour_change_between_hours(data)
+    visualize_24_hour_chart(data)

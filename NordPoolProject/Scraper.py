@@ -1,6 +1,5 @@
 from playwright.sync_api import sync_playwright
 import pandas as pd
-import re
 
 def scraper(date: str):
     url = f"https://data.nordpoolgroup.com/auction/day-ahead/prices?deliveryDate={date}&currency=EUR&aggregation=DeliveryPeriod&deliveryAreas=EE"
@@ -40,17 +39,17 @@ def scraper(date: str):
         browser.close()
 
     df = pd.DataFrame({
-        "Date": [date] * len(tunnid),
-        "Hour": tunnid,
-        "Price (€/MWh)": hinnad
+        "Kuupäev": [date] * len(tunnid),
+        "Tund": tunnid,
+        "Hind (€/MWh)": hinnad
     })
 
 
     return df
 
 def calculate_daily_average(df: pd.DataFrame, date: str):
-    daily_total = df["Price (€/MWh)"].sum()
+    daily_total = df["Hind (€/MWh)"].sum()
 
-    total_row = {"Date": date, "Hour": "Total", "Price (€/MWh)": daily_total}
+    total_row = {"Kuupäev": date, "Tund": "Kokku", "Hind (€/MWh)": daily_total}
     df = df._append(total_row, ignore_index=True)
     return df
