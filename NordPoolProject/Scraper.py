@@ -27,13 +27,10 @@ def scraper(date: str):
             if len(tds) < 2:
                 continue
 
-            tund_text = tds[0].inner_text().strip()
+            tund = tds[0].inner_text().strip()
             hind_text = tds[1].inner_text().strip()
 
-            match = re.match(r"(\d{2}):\d{2}", tund_text)
-            if not match:
-                continue
-            tund = int(match.group(1))
+
 
             hind = float(hind_text.replace(",", "."))
 
@@ -48,11 +45,12 @@ def scraper(date: str):
         "Price (€/MWh)": hinnad
     })
 
+
+    return df
+
+def calculate_daily_average(df: pd.DataFrame, date: str):
     daily_total = df["Price (€/MWh)"].sum()
 
     total_row = {"Date": date, "Hour": "Total", "Price (€/MWh)": daily_total}
     df = df._append(total_row, ignore_index=True)
-
     return df
-
-print(scraper("2025-05-23"))
