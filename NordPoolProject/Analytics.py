@@ -1,7 +1,8 @@
 from matplotlib import pyplot as plt
 import pandas as pd
 import Scraper
-from NordPoolProject.Scraper import calculate_daily_average
+import sys
+import datetime
 
 
 def get_data(date:str ):
@@ -49,6 +50,11 @@ def visualize_24_hour_change_between_hours(data: pd.DataFrame):
     plt.show()
 
 if __name__ == "__main__":
-    data = get_data("2025-05-24")
+    if len(sys.argv) > 1:
+        date = sys.argv[1]
+    else:
+        date = default=datetime.date.today().isoformat()
+
+    data = get_data(date)
     visualize_24_hour_change_between_hours(data)
     visualize_24_hour_chart(data)
