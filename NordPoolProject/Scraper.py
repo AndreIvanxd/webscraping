@@ -1,5 +1,7 @@
 from playwright.sync_api import sync_playwright
 import pandas as pd
+import sys
+import datetime
 
 def scraper(date: str):
     url = f"https://data.nordpoolgroup.com/auction/day-ahead/prices?deliveryDate={date}&currency=EUR&aggregation=DeliveryPeriod&deliveryAreas=EE"
@@ -14,7 +16,10 @@ def scraper(date: str):
         except:
             pass
 
-        page.wait_for_selector("tr.dx-row.dx-data-row.dx-column-lines", timeout=60000)
+        try:
+            page.wait_for_selector("tr.dx-row.dx-data-row.dx-column-lines", timeout=60000)
+        except:
+            raise(Exception("cant find html class"))
 
         rows = page.query_selector_all("tr.dx-row.dx-data-row.dx-column-lines")
 
@@ -53,3 +58,13 @@ def calculate_daily_average(df: pd.DataFrame, date: str):
     total_row = {"Kuupäev": date, "Tund": "Kokku", "Hind (€/MWh)": daily_total}
     df = df._append(total_row, ignore_index=True)
     return df
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        date = sys.argv[1]
+    else:
+        date = default=datetime.date.today().isoformat()
+
+    df = scraper(date)
+    df = calculate_daily_average(df, date)
+    print(df)

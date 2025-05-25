@@ -5,41 +5,50 @@
 ![change_between_hours2025-05-25.png](NordPoolProject/graafid/change_between_hours2025-05-25.png)
 
 Kasutan oma analüüsi jaoks kahe päeva tulemusi, et saada rohkem andmeid ja näitada korduvust.
-Mõlemas päeva hinna graafis on näha sarnast mustrit. Vara hommikul ja öösetel aegadel on näha märgatavalt suuremat
-hinda. Vaatades muutust tundide vahel teistelt graafidelt on näha, et umbes 1-st hakkab hind langema ja ei tõuse koradgi kuni 
-keskpäev või õhtustel aegadel kus hind lendab lakke.
+
+Mõlemas päevahinna graafis on näha sarnast mustrit, kus varahommikul ja öösetel aegadel on näha märkimisväärselt suuremat hinda.
+
+Vaadates muudatust teistel graafidelt tundide vahel, on näha, et umbes kella 1st hakkab hind langema ja ei tõuse kordagi, kuni keskpäevani või õhtuni mil hind nö "lendab lakke".
 
 
 # Töö kirjeldus
-Alustasin html lehe analüüsiga. Kuna leht on dünaamiline proovisin leida kohta kust saaks andmeid kätte. Kui leidsin üles
-viisi kuidas andmeid kätte saada hakkasin kirjutama lahendust, et neid andmeid kätte saada.
-Kasutasin Playwright raamistiku, et tekitada Chromiumi instance pythoni. Koos selle instancega sain ma ilusti välja töödelda 
-vajalikud andmed. Kasutasin Pandas dataframe, et salvestada Kuupäev, tund ja hind. Kui andmed sain kätte tegin kaks funktsiooni
-millega saan visualiseerida leitud andmeid. Esimene funktsioon teeb graafi 24 tunni jooksu muutustest ja teine funktsioon kujutab 
+Alustasin HTML lehe analüüsiga. Kuna leht on dünaamiline, proovisin leida kohta kust saaks andmeid kätte. Leides üles viisi kuidas andmeid kätte saada, hakkasin lahendust realiseerima.
+
+Kasutasin Playwright raamistiku, et tekitada Chromiumi instants Pythoni. Koos selle instansiga sain ma ilusti välja töödelda 
+vajalikud andmed. Kasutasin Pandas *dataframe*, et salvestada kuupäev, tund ja hind. Kui andmed kätte sain, tegin kaks funktsiooni
+millega saan visualiseerida leitud andmeid. 
+
+Esimene funktsioon teeb graafi 24 tunni muutustest ja teine funktsioon kujutab 
 tulpdiagrammina iga tunnist muudatust hinnas. Samuti lisasin funktsiooni, mis võimaldab
-tekitada dataframe lõppu rea, mis annab päevase summa.
+tekitada *dataframe* lõppu rea, mis annab päevase summa.
 
 # Kasutatud vahendid
-Terve lahenduse kirjutasin pythonis, sest sellega on mul kõige rohkem kogemust ja python sobib väga hästi sellise ülesande lahendamiseks <br/>
-Kasutasin pandas teeki, et andmeid salvestada, sest tundus kõige kergem viis salvestada andmed. Uurides dünaamilist web scrapingut
-sain aru, et valikus on kas Selenium või Playwright. Otsustasin Playwrighti kasuks kuna sellega sai kergemini. 
-Samuti Playwrightiga sai lihtsasti tõmmata Chromium browseri instance. Kasutasin visualiseerimiseks Matplotlibi, sest olen seda
-kõige rohkem kasutanud
+Kogu lahenduse kirjutasin Pythonis, kuna mul on sellega kõige enam kogemust ja samuti sobib Python väga hästi sellise ülesande lahendamiseks.
+
+Kasutasin Pandas teeki, et andmeid salvestada, kuna see tundus kõige kergem viis andmete salvestamiseks. Dünaamilist veebikoorimist uurides, sain aru et kõige mõtekam olekas kasutada kas Seleniumit või Playwrighti. 
+Otsustasin lõpuks kasutada Playwrighti, kuna seda on palju lihtsam implementeerida.
+Samuti saab Playwrightiga väga lihtsasti käivitada Chromiumi brauseri instantsi. 
+
+Andmete visauliseerimiseks kasutasin Matplotlibi, kuna oman varasemat kogemust selle kasutamisel.
 
 # Tulevased muudatused
+Andmete kogumise automatiseerimiseks oleks vaja skripte jooksutada igapäevaselt. Üheks lahenduseks oleks kasutada erinevaid pilveteenuseid (nt. AWS või Microsoft Azure). AWS Lambdaga oleks võimalik skriptide jooksutamine automatiseerida ja tektiada andmete jaoks andmebaas.
 
-Kui soovida automatiseerida andmete kogunemist, oleks vaja kuidagi iga päev vajalikke scripte runnida. Üks lahendusteks oleks
-kasutada cloud service nagu näiteks AWS või Microsoft Azure. AWS lambdaga saaks automatiseerida skriptid ja kui tekitada nende andmete jaoks andmebaas
-saaks otse sinna saata. Kui AWS on liiga ekstreemne lahendus saaks olla loov ja kasutada näiteks raspberry pi'd mis saab samuti
-jooksutada antud koodi. Andmebaasi puhul sobiks midagi väga lihtsalt nagu PostgreSQL mis salvestaks päeva, kuu, tunni, hinna.
+Kui pilveteenused ei sobi, siis on võimalik skripte jooksutada ka lokaalselt luues näiteks *cronjob*'i.
+Andmebaasiks sobiks näiteks PostgreSQL, mis salvestaks päeva, kuu, tunni ja hinna.
+
+Loodud lahenduse üheks miinuseks oleks see, kui HTML klassid muutuksid, siis skript ei leiaks enam õigeid klasse üles. Kuid siiski, on selle parandamine lihtne.
 
 # Vajalikud vahendid ja tööle saamine
-vajalik: Python
-vajalikud teekid: matplotlib, pandas, playwright.sync_api
-Need saab tõmmata näiteks **!pip install matplotlib pandas playwright** kui on olemas Python arvutis.
+Python <br>
+Pythoni teegid: matplotlib, pandas, playwright.sync_api <br>
+Teeke saab alla laadida *pip*'ga. <br>
+Nt. **!pip install matplotlib pandas playwright** <br>
 Samuti on vaja teha **playwright install**
-Programmi saab windowsis tööle panna terminalist käsuga
-**Python visualize.py (kuupäev) <br/>
-Näide: Python visualize.py 2025-05-25**
 
-
+Lahendust saab Windowsis jooksutada järgnevalt:<br>
+python visualize.py (kuupäev) <br/>
+**Näide: python visualize.py 2025-05-25** <br>
+Kuna oli soovitud ka päeva keskmine hind siis selle saab kätte järgneva käsuga<br>
+python scraper.py (kuupäev) <br/>
+**Näide: python scraper.py 2025-05-25**
