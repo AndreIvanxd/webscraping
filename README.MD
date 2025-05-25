@@ -21,6 +21,7 @@ millega saan visualiseerida leitud andmeid.
 Esimene funktsioon teeb graafi 24 tunni muutustest ja teine funktsioon kujutab 
 tulpdiagrammina iga tunnist muudatust hinnas. Samuti lisasin funktsiooni, mis võimaldab
 tekitada *dataframe* lõppu rea, mis annab päevase summa.
+Viimasena lisasin lokaalse andmebaasi, kuhu saab salvestada *dataframes* olevad andmed.
 
 # Kasutatud vahendid
 Kogu lahenduse kirjutasin Pythonis, kuna mul on sellega kõige enam kogemust ja samuti sobib Python väga hästi sellise ülesande lahendamiseks.
@@ -30,12 +31,13 @@ Otsustasin lõpuks kasutada Playwrighti, kuna seda on palju lihtsam implementeer
 Samuti saab Playwrightiga väga lihtsasti käivitada Chromiumi brauseri instantsi. 
 
 Andmete visauliseerimiseks kasutasin Matplotlibi, kuna oman varasemat kogemust selle kasutamisel.
+Andmebaasiks kasutasin sqlite3, kuna seda saab "plug n play" lisada ja töötab lokaalselt.
 
 # Tulevased muudatused
-Andmete kogumise automatiseerimiseks oleks vaja skripte jooksutada igapäevaselt. Üheks lahenduseks oleks kasutada erinevaid pilveteenuseid (nt. AWS või Microsoft Azure). AWS Lambdaga oleks võimalik skriptide jooksutamine automatiseerida ja tektiada andmete jaoks andmebaas.
+Andmete kogumise automatiseerimiseks oleks vaja skripte jooksutada igapäevaselt. Üheks lahenduseks oleks kasutada erinevaid pilveteenuseid (nt. AWS või Microsoft Azure). AWS Lambdaga oleks võimalik skriptide jooksutamine automatiseerida ja tektitada andmete jaoks andmebaas.
 
 Kui pilveteenused ei sobi, siis on võimalik skripte jooksutada ka lokaalselt luues näiteks *cronjob*'i.
-Andmebaasiks sobiks näiteks PostgreSQL, mis salvestaks päeva, kuu, tunni ja hinna.
+Andmebaasi peaks samuti saama serveri peale, kuna praegu jookseb lokaane andmebaas
 
 Loodud lahenduse üheks miinuseks oleks see, kui HTML klassid muutuksid, siis skript ei leiaks enam õigeid klasse üles. Kuid siiski, on selle parandamine lihtne.
 

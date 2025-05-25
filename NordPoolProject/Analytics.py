@@ -2,14 +2,16 @@ from matplotlib import pyplot as plt
 import pandas as pd
 import Scraper
 import sys
-import datetime
 
 
-def get_data(date:str ):
-    data = Scraper.scraper(date)
+def get_data(date: str):
+    """Helper function for getting data from database"""
+    data = Scraper.get_data(date)
     return data
 
+
 def visualize_24_hour_chart(data: pd.DataFrame):
+    """Simple visualization to show the change of price in a day."""
     price = data["Hind (€/MWh)"]
 
     plt.figure(figsize=(10, 6))
@@ -28,7 +30,10 @@ def visualize_24_hour_chart(data: pd.DataFrame):
     plt.tight_layout()
     plt.savefig(f'graafid/24_hour_chart{data["Kuupäev"][0]}.png', bbox_inches='tight')
     plt.show()
+
+
 def visualize_24_hour_change_between_hours(data: pd.DataFrame):
+    """Visualization to show the change of price for each hour compared to the last."""
     price = data["Hind (€/MWh)"].values
     data.sort_values("Tund", inplace=True)
     hour_str = data["Tund"].str.split(" - ").str[0]
@@ -49,11 +54,13 @@ def visualize_24_hour_change_between_hours(data: pd.DataFrame):
     plt.savefig(f'graafid/change_between_hours{data["Kuupäev"][0]}.png', bbox_inches='tight')
     plt.show()
 
+
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         date = sys.argv[1]
     else:
-        date = default=datetime.date.today().isoformat()
+        print("Palun sisesta kuupäev kujul YYYY-MM-DD.")
+        sys.exit(1)
 
     data = get_data(date)
     visualize_24_hour_change_between_hours(data)
