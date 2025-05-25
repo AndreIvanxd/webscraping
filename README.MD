@@ -1,0 +1,1 @@
+This is a project done as an attempt to scrape nordpool site for one days data of estonian electricity prices
